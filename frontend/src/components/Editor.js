@@ -35,7 +35,7 @@ class Editor extends React.Component {
     this.changeDescription = updateFieldEvent("description");
     this.changeImage = updateFieldEvent("image");
     this.changeTagInput = updateFieldEvent("tagInput");
-
+    this.validImage = null;
     this.watchForEnter = (ev) => {
       if (ev.keyCode === 13) {
         ev.preventDefault();
@@ -47,21 +47,37 @@ class Editor extends React.Component {
       this.props.onRemoveTag(tag);
     };
 
+    function validateImage(url) {
+      const request = new XMLHttpRequest();
+      request.open("GET", url, true);
+      request.send();
+      request.onload = function () {
+        if (request.status == 200) {
+          this.validImage = true;
+        } else {
+          this.validImage = false;
+        }
+      };
+    }
+
     this.submitForm = (ev) => {
       ev.preventDefault();
-      const item = {
-        title: this.props.title,
-        description: this.props.description,
-        image: this.props.image,
-        tagList: this.props.tagList,
-      };
+      validateImage(this.props.image);
+      if (this.validImage) {
+        const item = {
+          title: this.props.title,
+          description: this.props.description,
+          image: this.props.image,
+          tagList: this.props.tagList,
+        };
 
-      const slug = { slug: this.props.itemSlug };
-      const promise = this.props.itemSlug
-        ? agent.Items.update(Object.assign(item, slug))
-        : agent.Items.create(item);
+        const slug = { slug: this.props.itemSlug };
+        const promise = this.props.itemSlug
+          ? agent.Items.update(Object.assign(item, slug))
+          : agent.Items.create(item);
 
-      this.props.onSubmit(promise);
+        this.props.onSubmit(promise);
+      } else alert("Can't find or access the image please update the provided URL");
     };
   }
 
