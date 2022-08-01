@@ -53,6 +53,10 @@ router.get("/", auth.optional, function (req, res, next) {
     query.tagList = { $in: [req.query.tag] };
   }
 
+  if (typeof req.query.title !== "undefined") {
+    query.title = { $in: req.query.title };
+  }
+
   Promise.all([
     req.query.seller ? User.findOne({ username: req.query.seller }) : null,
     req.query.favorited
@@ -97,10 +101,6 @@ router.get("/", auth.optional, function (req, res, next) {
       });
     })
     .catch(next);
-});
-
-router.get("/title/:title", auth.optional, function (req, res) {
-  return res.send(req.params.title);
 });
 
 router.get("/feed", auth.required, function (req, res, next) {
