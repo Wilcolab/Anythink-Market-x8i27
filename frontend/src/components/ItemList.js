@@ -10,7 +10,7 @@ const ItemList = (props) => {
     return <div className="py-4">Loading...</div>;
   }
 
-  if (items.length === 0 && !props.searchTerm && props.searchTerm.length < 3) {
+  if (items.length === 0 &&(!props.searchTerm || props.searchTerm.length < 3)) {
     return <div className="py-4 no-items">No items are here... yet.</div>;
   }
 
