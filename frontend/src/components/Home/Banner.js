@@ -23,7 +23,7 @@ const Banner = (props) => {
             {" "}
             A place to{" "}
             <span
-              id="word-get"
+              id="get-part"
               onClick={() => {
                 setIsVisible(!isVisible);
               }}
