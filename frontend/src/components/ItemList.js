@@ -6,11 +6,11 @@ import CryingEmoji from "../imgs/crying-emoji.png";
 const ItemList = (props) => {
   let items = props.items;
 
-  if (!props.items) {
+  if (!items) {
     return <div className="py-4">Loading...</div>;
   }
 
-  if (props.items.length === 0) {
+  if (items.length === 0 && !props.searchTerm && props.searchTerm.length < 3) {
     return <div className="py-4 no-items">No items are here... yet.</div>;
   }
 
@@ -20,10 +20,7 @@ const ItemList = (props) => {
     );
   }
 
-  if (
-    items.length === 0 ||
-    !(props.searchTerm && props.searchTerm.length >= 3)
-  ) {
+  if (items.length === 0) {
     return (
       <div
         id="empty"
@@ -32,7 +29,7 @@ const ItemList = (props) => {
         <img src={CryingEmoji} alt="Crying Emoji" className="emoji" />
         <p className="mt-4">
           No items found for{" "}
-          <span className="highlight-bold">{props.searchTerm}</span>
+          <span className="highlight-bold">"{props.searchTerm}"</span>
         </p>
       </div>
     );
