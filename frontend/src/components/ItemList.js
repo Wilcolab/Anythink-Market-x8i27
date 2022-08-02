@@ -27,7 +27,7 @@ const ItemList = (props) => {
         id="empty"
         className="w-50 mt-5 d-flex flex-column justify-content-center align-items-center empty-container"
       >
-        <img src={CryingEmoji} className="emoji" />
+        <img src={CryingEmoji} alt='Crying Emoji' className="emoji" />
         <p className="mt-4">
           No items found for{" "}
           <span className="highlight-bold">{props.searchTerm}</span>
