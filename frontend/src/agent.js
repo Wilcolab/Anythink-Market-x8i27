@@ -3,10 +3,12 @@ import _superagent from "superagent";
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
+const BACKEND_URL = process.env.BACKEND_URL;
+
 const API_ROOT =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:3000/api"
-    : "https://api.anythink.market/api";
+    : BACKEND_URL;
 
 const encode = encodeURIComponent;
 const responseBody = (res) => res.body;
