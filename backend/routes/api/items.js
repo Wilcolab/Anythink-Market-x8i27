@@ -85,16 +85,13 @@ router.get("/", auth.optional, function (req, res, next) {
         var items = results[0];
         var itemsCount = results[1];
         var user = results[2];
-
-        const itemsArr = async () => {
-          return items.map(async function (item) {
-            item.seller = await User.findById(item.seller);
-            return item.toJSONFor(user);
-          });
-        };
-
         return res.json({
-          items: itemsArr,
+          items: await Promise.all(
+            items.map(async function (item) {
+              item.seller = await User.findById(item.seller);
+              return item.toJSONFor(user);
+            })
+          ),
           itemsCount: itemsCount,
         });
       });
